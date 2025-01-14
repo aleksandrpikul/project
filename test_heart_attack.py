@@ -10,7 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 import pytest
 
 # Глобальный путь к данным
-DATA_PATH = '/home/user/Desktop/project/data/archive(1)/heart_attack_youth_adult_france.csv'
+DATA_PATH = 'heart_attack_youth_adult_france.csv'
 
 # Функция для загрузки данных
 def load_data():
