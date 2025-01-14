@@ -11,6 +11,7 @@ from sklearn.preprocessing import LabelEncoder
 # Глобальный путь к данным
 DATA_PATH = 'heart_attack_youth_adult_france.csv'
 
+
 # Функция для загрузки данных
 def load_data():
     df = pd.read_csv(DATA_PATH)
