@@ -1,0 +1,60 @@
+name: Python CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        pytest
+
+    - name: Run linters
+      run: |
+        flake8 .
+
+    - name: Check dependencies for vulnerabilities
+      run: |
+        pip-audit
+
+    - name: Build Docker image
+      run: |
+        docker build -t myapp .
+
+    - name: Check Dockerfile vulnerabilities with Trivy
+      run: |
+        curl -sfL https://github.com/aquasecurity/trivy/releases/download/v0.34.0/trivy_0.34.0_Linux-64bit.deb -o trivy.deb
+        sudo dpkg -i trivy.deb
+        trivy image myapp
+
+    - name: Send email notification (optional)
+      run: |
+        curl -X POST -F "from=aleksandrpikul134@gmail.com" \
+             -F "to=your-aleksandrpikul134@gmail.com" \
+             -F "subject=Test Results" \
+             -F "text=Your tests have passed." \
+             https://api.mailgun.net/v3/your-domain.com/messages
+             
+env:
+  DB_PASSWORD: ${{ secrets.HH5199036 }}
