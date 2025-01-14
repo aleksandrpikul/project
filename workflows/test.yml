@@ -48,13 +48,28 @@ jobs:
         sudo dpkg -i trivy.deb
         trivy image myapp
 
-    - name: Send email notification (optional)
-      run: |
-        curl -X POST -F "from=aleksandrpikul134@gmail.com" \
-             -F "to=your-aleksandrpikul134@gmail.com" \
-             -F "subject=Test Results" \
-             -F "text=Your tests have passed." \
-             https://api.mailgun.net/v3/your-domain.com/messages
+     - name: Send email notification
+        if: always()
+        run: |
+          echo "Sending email notification..."
+          curl -X POST https://api.sendgrid.com/v3/mail/send \
+            -H "Authorization: Bearer ${{ secrets.SENDGRID_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "personalizations": [
+                    {
+                      "to": [{"email": "aleksandrpikul134@gmail.com"}],
+                      "subject": "CI/CD Pipeline Status"
+                    }
+                  ],
+                  "from": {"email": "your-email@example.com"},
+                  "content": [
+                    {
+                      "type": "text/plain",
+                      "value": "The status of your CI/CD pipeline has been updated. Check the details in GitHub Actions."
+                    }
+                  ]
+                }'
              
 env:
   DB_PASSWORD: ${{ secrets.HH5199036 }}
