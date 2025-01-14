@@ -55,3 +55,6 @@ jobs:
              -F "subject=Test Results" \
              -F "text=Your tests have passed." \
              https://api.mailgun.net/v3/your-domain.com/messages
+             
+env:
+  DB_PASSWORD: ${{ secrets.HH5199036 }}
