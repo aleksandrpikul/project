@@ -1,0 +1,32 @@
+stages:
+  - test
+  - docker
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+test:
+  image: python:3.9
+  script:
+    - pytest
+    - flake8 .
+    - pip-audit
+
+docker_build:
+  image: python:3.9
+  stage: docker
+  script:
+    - docker build -t myapp .
+    - curl -sfL https://github.com/aquasecurity/trivy/releases/download/v0.34.0/trivy_0.34.0_Linux-64bit.deb -o trivy.deb
+    - sudo dpkg -i trivy.deb
+    - trivy image myapp
+
+# Уведомление на Email (опционально)
+notify_email:
+  stage: docker
+  script:
+    - curl -X POST -F "from=aleksandrpikul134@gmail.com" \
+             -F "to=your-aleksandrpikul134@gmail.com" \
+             -F "subject=Test Results" \
+             -F "text=Your tests have passed." \
+             https://api.mailgun.net/v3/your-domain.com/messages
