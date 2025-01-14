@@ -61,7 +61,7 @@ jobs:
       run: |
         echo "Sending email notification..."
         curl -X POST https://api.sendgrid.com/v3/mail/send \
-          -H "Authorization: Bearer ${{ secrets.SENDGRID_API_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.HH5199036 }}" \
           -H "Content-Type: application/json" \
           -d '{
                 "personalizations": [
@@ -70,7 +70,7 @@ jobs:
                     "subject": "CI/CD Pipeline Status"
                   }
                 ],
-                "from": {"email": "your-email@example.com"},
+                "from": {"email": "aleksandrpikul134@gmail.com"},
                 "content": [
                   {
                     "type": "text/plain",
