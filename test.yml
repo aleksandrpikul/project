@@ -58,4 +58,4 @@ jobs:
     steps:
     - name: Send notification email
       run: |
-        echo "Test results: ${{ job.status }}" | mail -s "CI Test Status" your-email@example.com
+        echo "Test results: ${{ job.status }}" | mail -s "CI Test Status" aleksandrpikul134@gmail.com
